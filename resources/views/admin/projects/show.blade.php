@@ -28,6 +28,11 @@
                 <p><strong>Type: </strong>{{$project->type ? $project->type->name : ''}}</p>
             @endif
             <p><strong>Github link: </strong>{{$project->link}}</p>
+            <ul class="list-unstyled d-flex gap-2">
+                @foreach ($project->technologies as $technology)
+                    <li>{{$technology->name}}</li>    
+                @endforeach
+            </ul>
         </div>
     </section>
 </main>
