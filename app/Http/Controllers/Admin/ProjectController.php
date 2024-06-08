@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Project;
+use App\Models\Technology;
 use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -27,8 +28,9 @@ class ProjectController extends Controller
     public function create()
     {
         $types = Type::orderBy('name', 'asc')->get();
+        $technologies = Technology::orderBy('name', 'asc')->get();
 
-        return view('admin.projects.create', compact('types'));
+        return view('admin.projects.create', compact('types', 'technologies'));
     }
 
     /**
@@ -55,6 +57,13 @@ class ProjectController extends Controller
         // salviamo l'istanza 
         $new_project->save();
 
+        // controlliamo se sono state inviate delle technologies
+        if ($request->has('technologies')) {
+
+            // attach()
+            $new_project->technologies()->attach($request->technologies);
+        }
+
         // return to_route('admin.projects.show', $new_project);
         return redirect()->route('admin.projects.show', $new_project);
     }
@@ -73,7 +82,12 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return view('admin.projects.edit', compact('project'));
+        // eager loading (?)
+        $project->load(['technologies']);
+
+        $technologies = Technology::orderBy('name', 'asc')->get();
+
+        return view('admin.projects.edit', compact('project', 'technologies'));
     }
 
     /**
@@ -84,6 +98,12 @@ class ProjectController extends Controller
         $form_data = $request->all();
 
         $project->fill($form_data);
+
+        if ($request->has('technologies')) {
+            $project->technologies()->sync($request->technologies);
+        } else {
+            $project->technologies()->detach();
+        }
 
         $project->save();
         return redirect()->route('admin.projects.show', $project);
