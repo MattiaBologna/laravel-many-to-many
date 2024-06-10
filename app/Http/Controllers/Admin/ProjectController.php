@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProjectRequest;
+use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
 use App\Models\Technology;
 use App\Models\Type;
@@ -36,17 +38,19 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreProjectRequest $request)
     {
         // VALIDAZIONE
-        $request->validate([
-            'title' => 'required|max:150',
-            'link' => 'required|url'
-        ]);
+        // $request->validate([
+        //     'title' => 'required|max:150',
+        //     'link' => 'required|url'
+        // ]);
+
+
 
 
         // recuperare i parametri dal form
-        $form_data = $request->all();
+        $form_data = $request->validated();
 
         // creiamo l'istanza 
         $new_project = new Project();
@@ -100,16 +104,16 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Project $project)
+    public function update(UpdateProjectRequest $request, Project $project)
     {
 
         // VALIDAZIONE
-        $request->validate([
-            'title' => 'required|max:150',
-            'link' => 'required|url'
-        ]);
+        // $request->validate([
+        //     'title' => 'required|max:150',
+        //     'link' => 'required|url'
+        // ]);
 
-        $form_data = $request->all();
+        $form_data = $request->validated();
 
         $project->fill($form_data);
 
