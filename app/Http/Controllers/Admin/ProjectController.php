@@ -38,6 +38,13 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+        // VALIDAZIONE
+        $request->validate([
+            'title' => 'required|max:150',
+            'link' => 'required|url'
+        ]);
+
+
         // recuperare i parametri dal form
         $form_data = $request->all();
 
