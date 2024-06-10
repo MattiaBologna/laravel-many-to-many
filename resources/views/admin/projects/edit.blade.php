@@ -18,6 +18,10 @@
             <input type="text" class="form-control" name='description' placeholder="Description" value="{{old('description', $project->description)}}">
         </div>
         <div>
+            <label class="form-label fs-5" for="slug">Projet Slug</label>
+            <input type="text" class="form-control" name='slug' value="{{old('slug', $project->slug)}}">
+        </div>
+        <div>
             <label for="type_id" class="form-label">Select type</label>
             <select name="type_id" id="type_id" class="form-control">
                 <option value="">-- Select Type --</option>
