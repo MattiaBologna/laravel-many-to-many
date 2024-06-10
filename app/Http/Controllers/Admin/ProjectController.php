@@ -102,6 +102,13 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
+
+        // VALIDAZIONE
+        $request->validate([
+            'title' => 'required|max:150',
+            'link' => 'required|url'
+        ]);
+
         $form_data = $request->all();
 
         $project->fill($form_data);
