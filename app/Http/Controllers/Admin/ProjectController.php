@@ -60,10 +60,12 @@ class ProjectController extends Controller
 
         // popoliamo l'istanza con i dati che arrivano dal form
         $new_project->title = $form_data['title'];
-        $new_project->slug = Str::slug($new_project->title);
         $new_project->description = $form_data['description'];
         $new_project->type_id = $form_data['type_id'];
         $new_project->link = $form_data['link'];
+        $new_project->slug = Str::slug($new_project->title);
+
+        // TODO controlla che lo slug non sia già presente nel db
 
         // salviamo l'istanza 
         $new_project->save();
@@ -98,7 +100,9 @@ class ProjectController extends Controller
 
         $technologies = Technology::orderBy('name', 'asc')->get();
 
-        return view('admin.projects.edit', compact('project', 'technologies'));
+        $types = Type::orderBy('name', 'asc')->get();
+
+        return view('admin.projects.edit', compact('project', 'technologies', 'types'));
     }
 
     /**

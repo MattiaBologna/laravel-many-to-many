@@ -17,7 +17,7 @@
             <label class="form-label fs-5" for="description">Projet Description</label>
             <input type="text" class="form-control" name='description' placeholder="Description" value="{{old('description', $project->description)}}">
         </div>
-        {{-- <div>
+        <div>
             <label for="type_id" class="form-label">Select type</label>
             <select name="type_id" id="type_id" class="form-control">
                 <option value="">-- Select Type --</option>
@@ -25,7 +25,7 @@
                     <option @selected($type->id == old('type_id')) value="{{$type->id}}">{{$type->name}}</option>
                 @endforeach
             </select>
-        </div> --}}
+        </div>
         <div class="form-group">
             <h2>Select technologies</h2>
             @foreach ($technologies as $technology)
