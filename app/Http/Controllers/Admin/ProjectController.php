@@ -63,9 +63,26 @@ class ProjectController extends Controller
         $new_project->description = $form_data['description'];
         $new_project->type_id = $form_data['type_id'];
         $new_project->link = $form_data['link'];
-        $new_project->slug = Str::slug($new_project->title);
 
-        // TODO controlla che lo slug non sia già presente nel db
+        // Controlla che lo slug non sia già esistente nel DB
+
+        $base_slug = Str::slug($new_project->title);
+        $slug = $base_slug;
+        $n = 0;
+
+        do {
+            // SELECT * FROM `posts` WHERE `slug` = ?
+            $find = Project::where('slug', $slug)->first(); // null | Post
+
+            if ($find !== null) {
+                $n++;
+                $slug = $base_slug . '-' . $n;
+            }
+        } while ($find !== null);
+
+        $new_project->slug = $slug;
+
+
 
         // salviamo l'istanza 
         $new_project->save();
